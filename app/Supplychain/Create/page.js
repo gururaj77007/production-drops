@@ -90,7 +90,7 @@ function Page(props) {
     e.preventDefault();
     // Submit logic here
     console.log(formData);
-    await axios.post('http://localhost:3021/api/supplychain', formData);
+    await axios.post('https://survey-production.onrender.com/api/supplychain', formData);
     // Reset form after submission
     setFormData({
       beneficiaryName: '',

@@ -33,7 +33,7 @@ import { useRouter } from 'next/navigation'
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://192.168.29.19:3021/api/supplychain/${params.id}`);
+        const response = await axios.get(`https://survey-production.onrender.com/api/supplychain/${params.id}`);
         setSupplyChainData(response.data);
         setFormData(response.data); // Set form data with fetched data
         setLoading(false);
@@ -84,7 +84,7 @@ import { useRouter } from 'next/navigation'
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://192.168.29.19:3021/api/supplychain/${params.id}`, formData);
+      await axios.put(`https://survey-production.onrender.com/api/supplychain/${params.id}`, formData);
       alert('Supply chain data updated successfully');
       setEditMode(false); // Switch back to view mode after submitting
     } catch (error) {
