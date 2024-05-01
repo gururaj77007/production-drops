@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import TaskBar from '../../../components/Home/Taskbar';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import axios from 'axios'; // Import Axios
 
 function Page(props) {
   const [formData, setFormData] = useState({
@@ -10,13 +11,16 @@ function Page(props) {
     age: '',
     address: '',
     phoneNumber: '',
+    district: '', // Include district field
+    taluk: '', 
     yields: [],
     photosURL: '',
     location: {
       type: 'Point',
       coordinates: [0, 0] // Default coordinates
     },
-    description: ''
+    description: '',
+    landDimension: '' 
   });
 
   useEffect(() => {
@@ -82,10 +86,11 @@ function Page(props) {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     // Submit logic here
     console.log(formData);
+    await axios.post('http://localhost:3021/api/supplychain', formData);
     // Reset form after submission
     setFormData({
       beneficiaryName: '',
@@ -94,11 +99,14 @@ function Page(props) {
       phoneNumber: '',
       yields: [],
       photosURL: '',
+      district: '', // Reset district field
+      taluk: '',
       location: {
         type: 'Point',
         coordinates: [0, 0]
       },
-      description: ''
+      description: '',
+      landDimension: '' 
     });
   };
 
@@ -129,6 +137,18 @@ function Page(props) {
           />
         </div>
         <div className="mb-4">
+          <label className="block text-black mb-2">Land Dimension (in acres)</label>
+          <input
+            type="number"
+            name="landDimension"
+            value={formData.landDimension}
+            onChange={handleChange}
+            placeholder="Enter Land Dimension"
+            className="w-full text-black border rounded py-2 px-3"
+          />
+        </div>
+        
+        <div className="mb-4">
           <label className="block text-black mb-2">Address</label>
           <input
             type="text"
@@ -136,6 +156,28 @@ function Page(props) {
             value={formData.address}
             onChange={handleChange}
             className="w-full text-black border rounded py-2 px-3"
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-black mb-2">District</label>
+          <input
+            type="text"
+            name="district"
+            value={formData.district}
+            onChange={handleChange}
+            className="w-full text-black border rounded py-2 px-3"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-black mb-2">Taluk</label>
+          <input
+            type="text"
+            name="taluk"
+            value={formData.taluk}
+            onChange={handleChange}
+            className="w-full text-black border rounded py-2 px-3"
+            required
           />
         </div>
         <div className="mb-4">

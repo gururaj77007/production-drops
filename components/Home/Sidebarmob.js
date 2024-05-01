@@ -1,4 +1,5 @@
 "use client"
+import { useRouter } from 'next/navigation'
 
 
 
@@ -8,6 +9,7 @@ import { BsGraphUp, BsBag, BsPerson, BsGear, BsInbox, BsPower } from "react-icon
 
 const  Sidebarmob = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter()
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -40,11 +42,11 @@ const  Sidebarmob = () => {
           <li>
             <div className="flex items-center cursor-pointer">
               <BsGraphUp className="h-5 w-5" />
-              <h6 className="ml-2">Dashboard</h6>
+              <h6 className="ml-2">SupplyChain</h6>
             </div>
             <ul className="pl-4 space-y-2">
-              <li>Analytics</li>
-              <li>Reporting</li>
+              <li onClick={() => router.push('/Supplychain/Create')}>CREATE</li>
+              <li onClick={() => router.push('/Supplychain/View')}>VIEW</li>
               <li>Projects</li>
             </ul>
           </li>

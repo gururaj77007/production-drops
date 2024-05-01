@@ -45,7 +45,7 @@ const TaskBar = () => {
   };
 
   return (
-    <div className="bg-white w-full">
+    <div className="bg-[#ffffff] w-full">
       {/* Desktop view */}
       <div className="hidden sm:flex items-center py-3 justify-between ">
      
