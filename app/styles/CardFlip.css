@@ -1,0 +1,29 @@
+/* styles/CardFlip.css */
+.card {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+  }
+  
+  .card.is-flipped {
+    transform: rotateY(180deg);
+  }
+  
+  .card > div {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+  }
+  
+  .card .front {
+    background-color: white;
+  }
+  
+  .card .back {
+    background-color: white;
+    transform: rotateY(180deg);
+  }
+  
