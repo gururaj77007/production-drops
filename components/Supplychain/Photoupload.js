@@ -20,7 +20,7 @@ const PhotoUploader = ({id}) => {
 
       // You can add additional metadata to the form data if needed, e.g., formData.append('description', 'This is a photo');
 
-      const response = await axios.post('http://localhost:3021/api/supplychain/upload', formData, {
+      const response = await axios.post('https://survey-production.onrender.com/api/supplychain/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

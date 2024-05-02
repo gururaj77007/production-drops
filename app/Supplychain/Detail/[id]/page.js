@@ -42,7 +42,7 @@ const handleToggleUploader = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3021/api/supplychain/${params.id}`);
+        const response = await axios.get(`https://survey-production.onrender.com/api/supplychain/${params.id}`);
         setSupplyChainData(response.data);
         console.log(response.data)
         setFormData(response.data); // Set form data with fetched data
@@ -232,14 +232,7 @@ const handleToggleUploader = () => {
                   className="w-full mb-4 p-2 border rounded"
                   placeholder="Taluk"
                 />
-                <input
-                  type="text"
-                  name="photosURL"
-                  value={formData.photosURL}
-                  onChange={handleChange}
-                  className="w-full mb-4 p-2 border rounded"
-                  placeholder="Photo URL"
-                />
+                
                 <textarea
                   name="description"
                   value={formData.description}
