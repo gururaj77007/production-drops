@@ -14,7 +14,7 @@ function Page(props) {
     district: '', // Include district field
     taluk: '', 
     yields: [],
-    photosURL: '',
+    photosURL: [],
     location: {
       type: 'Point',
       coordinates: [0, 0] // Default coordinates
@@ -90,7 +90,7 @@ function Page(props) {
     e.preventDefault();
     // Submit logic here
     console.log(formData);
-    await axios.post('https://survey-production.onrender.com/api/supplychain', formData);
+    await axios.post('http://localhost:3021/api/supplychain', formData);
     // Reset form after submission
     setFormData({
       beneficiaryName: '',
@@ -98,7 +98,7 @@ function Page(props) {
       address: '',
       phoneNumber: '',
       yields: [],
-      photosURL: '',
+      photosURL: [],
       district: '', // Reset district field
       taluk: '',
       location: {
@@ -216,8 +216,8 @@ function Page(props) {
               {yieldItem.name === 'Other' && (
                 <input
                   type="text"
-                  name="customCropName"
-                  value={yieldItem.customCropName || ''}
+                  name="Customname"
+                  value={yieldItem.Customname || ''}
                   onChange={(e) => handleYieldChange(index, e)}
                   placeholder="Enter Custom Crop Name"
                   className="w-full text-black border rounded py-2 px-3 mb-2"

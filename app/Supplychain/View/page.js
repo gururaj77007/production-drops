@@ -16,7 +16,7 @@ function SupplyChainView() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`https://survey-production.onrender.com/api/supplychain?page=${page}&limit=10`);
+      const response = await axios.get(`http://localhost:3021/api/supplychain?page=${page}&limit=10`);
       console.log(response.data.docs)
       setSupplyChainData(response.data.docs);
     } catch (error) {

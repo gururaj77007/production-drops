@@ -7,19 +7,28 @@ import 'slick-carousel/slick/slick-theme.css';
 import { Image } from 'next/image';
 import TaskBar from '../../../../components/Home/Taskbar';
 import { useRouter } from 'next/navigation'
+import Photouploder from "../../../../components/Supplychain/Photoupload"
+import { motion } from 'framer-motion';
+
 
  function Page({ params }) {
   const [supplyChainData, setSupplyChainData] = useState(null);
   const router = useRouter()
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showUploader, setShowUploader] = useState(false);
+
+const handleToggleUploader = () => {
+  setShowUploader(!showUploader);
+};
   const [formData, setFormData] = useState({
     beneficiaryName: '',
     age: 0,
     address: '',
     district: '',
+    Customname:"",
     taluk: '',
-    photosURL: '',
+    photosURL: [],
     description: '',
     landDimension: 0,
     location: {
@@ -33,8 +42,9 @@ import { useRouter } from 'next/navigation'
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://survey-production.onrender.com/api/supplychain/${params.id}`);
+        const response = await axios.get(`http://localhost:3021/api/supplychain/${params.id}`);
         setSupplyChainData(response.data);
+        console.log(response.data)
         setFormData(response.data); // Set form data with fetched data
         setLoading(false);
       } catch (error) {
@@ -50,6 +60,15 @@ import { useRouter } from 'next/navigation'
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+  const handleYieldChange = (e, index) => {
+    const { name, value } = e.target;
+  //  console.log(name,value,index)
+    const updatedYields = [...formData.yields];
+   updatedYields[index][name]=value
+    console.log(updatedYields[index][name])
+    //updatedYields[index] = { ...updatedYields[index], [name]: value };
+    setFormData({ ...formData, yields: updatedYields });
   };
   const openGoogleMaps = () => {
     console.log(supplyChainData.location)
@@ -104,7 +123,8 @@ import { useRouter } from 'next/navigation'
     <div className=' '>
         <TaskBar></TaskBar>
         
-         <div className="container mx-auto px-4 mt-8">
+        
+         <div className="container z-10 mx-auto px-4 mt-8">
          
       {loading ? (
         <div className="text-center text-gray-700 text-lg">Loading...</div>
@@ -113,7 +133,7 @@ import { useRouter } from 'next/navigation'
       ) : (
         <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
           <Slider {...settings}>
-          {photos.map((photo, index) => (
+          {supplyChainData.photosURL.map((photo, index) => (
               <div key={index} className="flex items-center justify-center bg-gray-200 h-64">
                 <img
                   className="object-cover object-center h-64"
@@ -126,6 +146,20 @@ import { useRouter } from 'next/navigation'
           <div className="p-6">
             {!editMode ? (
               <>
+               <button
+        onClick={handleToggleUploader}
+        className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+      >
+        Upload Photo
+      </button>
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }} 
+        animate={{ opacity: showUploader ? 1 : 0, y: showUploader ? 0 : 20 }}
+        transition={{ duration: 0.3 }}
+        style={{ display: showUploader ? 'block' : 'none' }}
+      >
+        <Photouploder id={params.id} />
+      </motion.div>
                 <h1 className="text-3xl font-bold text-gray-800 mb-3">{supplyChainData.beneficiaryName}</h1>
                 <p className="text-gray-700 text-base mb-3">Age: {supplyChainData.age}</p>
                 <p className="text-gray-700 text-base mb-3">Address: {supplyChainData.address}</p>
@@ -138,6 +172,7 @@ import { useRouter } from 'next/navigation'
                   {supplyChainData.yields.map((yieldItem, index) => (
                     <div key={index} className="flex justify-between mb-1">
                       <p className="text-gray-700">{yieldItem.name}</p>
+                      <p className="text-gray-700">{yieldItem.Customname||""}</p>
                       <p className="text-gray-700">{yieldItem.estimatedQuantity}</p>
                     </div>
                   ))}
@@ -223,29 +258,37 @@ import { useRouter } from 'next/navigation'
                 {formData.yields.map((yieldItem, index) => (
                   <div key={index} className="mb-4">
                     <input
-                      type="text"
-                      name={`yields[${index}].name`}
-                      value={yieldItem.name}
-                      onChange={handleChange}
-                      className="w-full p-2 border rounded"
-                      placeholder="Yield Name"
-                    />
-                    <input
-                      type="number"
-                      name={`yields[${index}].estimatedQuantity`}
-                      value={yieldItem.estimatedQuantity}
-                      onChange={handleChange}
-                      className="w-full mt-2 p-2 border rounded"
-                      placeholder="Estimated Quantity"
-                    />
-                    <input
-                      type="text"
-                      name={`yields[${index}].permanentOrTemporary`}
-                      value={yieldItem.permanentOrTemporary}
-                      onChange={handleChange}
-                      className="w-full mt-2 p-2 border rounded"
-                      placeholder="Permanent or Temporary"
-                    />
+      type="text"
+      name={`name`}
+      value={yieldItem.name}
+      onChange={(e) => handleYieldChange(e, index)}
+      className="w-full p-2 border rounded"
+      placeholder="Yield Name"
+    />
+     <input
+      type="text"
+      name={`Customname`}
+      value={yieldItem.Customname||""}
+      onChange={(e) => handleYieldChange(e, index)}
+      className="w-full p-2 border rounded"
+      placeholder="Yield Customname"
+    />
+    <input
+      type="number"
+      name={`estimatedQuantity`}
+      value={yieldItem.estimatedQuantity}
+      onChange={(e) => handleYieldChange(e, index)}
+      className="w-full mt-2 p-2 border rounded"
+      placeholder="Estimated Quantity"
+    />
+    <input
+      type="text"
+      name={`permanentOrTemporary`}
+      value={yieldItem.permanentOrTemporary}
+      onChange={(e) => handleYieldChange(e, index)}
+      className="w-full mt-2 p-2 border rounded"
+      placeholder="Permanent or Temporary"
+    />
                     <button
       type="button"
       onClick={() => {
