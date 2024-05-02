@@ -26,7 +26,7 @@ const PhotoUploader = ({id}) => {
         },
       });
 
-      console.log('Photo uploaded successfully:', response.data);
+      alert("succefully uploaded")
     } catch (error) {
       console.error('Error uploading photo:', error);
     }
@@ -46,7 +46,7 @@ const PhotoUploader = ({id}) => {
   return (
     <div>
       <h2>Photo Uploader</h2>
-      <Dropzone onDrop={handleDrop}>
+      <Dropzone onDrop={handleDrop} multiple={false}>
         {({ getRootProps, getInputProps }) => (
           <div {...getRootProps()} style={{ border: '1px solid #ccc', padding: '20px', textAlign: 'center', cursor: 'pointer' }}>
             <input {...getInputProps()} />
