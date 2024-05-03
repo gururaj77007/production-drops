@@ -28,6 +28,7 @@ const PhotoUploader = ({id}) => {
 
       alert("succefully uploaded")
     } catch (error) {
+      alert(`${error}`)
       console.error('Error uploading photo:', error);
     }
   };
