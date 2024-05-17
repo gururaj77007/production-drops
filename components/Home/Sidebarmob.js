@@ -53,10 +53,10 @@ const  Sidebarmob = () => {
           <li>
             <div className="flex items-center cursor-pointer">
               <BsBag className="h-5 w-5" />
-              <h6 className="ml-2">E-Commerce</h6>
+              <h6 className="ml-2">Buyer</h6>
             </div>
             <ul className="pl-4 space-y-2">
-              <li>Orders</li>
+              <li>Create</li>
               <li>Products</li>
             </ul>
           </li>

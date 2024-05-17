@@ -17,6 +17,6 @@ export default withAuth(
   }
 )
 
-// Applies next-auth only to matching routes - can be regex
+// Applies next-auth only to matching routes - can be regex /Supplychain/:path*
 // Ref: https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
-export const config = { matcher: ["/extra/:path*", "/client/:path*", "/Supplychain/:path*"] }
+ export const config = { matcher: ["/extra/:path*", "/client/:path*"] }
