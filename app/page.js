@@ -28,18 +28,43 @@ export default function Home() {
   //     alert("You denied for the notification");
   //   }
   // }
+  const requestPermissionAndFetchToken = async () => {
+    try {
+      const permission = await Notification.requestPermission();
+      if (permission === 'granted') {
+        console.log('Notification permission granted.');
+        const messaging = getMessaging(app);
+        const currentToken = await getToken(messaging, {
+          vapidKey: 'BK_nYkNSOhLl-l0rWQ4KuaXzUKZxnTm9fy4EylOa8tAAoTXhK-MHxggTdl6e8Ew5s1RvTfRFFMDnooNO9D20txs',
+        });
+        if (currentToken) {
+          console.log('FCM token:', currentToken);
+         // setToken(currentToken);
+        } else {
+          console.log('No registration token available. Request permission to generate one.');
+        }
+      } else {
+        console.log('Unable to get permission to notify.');
+      }
+    } catch (error) {
+      console.error('Error requesting notification permission:', error);
+    }
+  };
+
 
   useEffect(() => {
    // requestPermission();
    
    const requestPermission = async () => {
     try {
-      const permission = await Notification.requestPermission();
-      if (permission === 'granted') {
-        console.log('Notification permission granted.');
-      } else {
-        console.log('Unable to get permission to notify.');
-      }
+      const permission = await Notification.requestPermission().then((permission)=>{
+        if (permission === 'granted') {
+          console.log('Notification permission granted.');
+        } else {
+          console.log('Unable to get permission to notify.');
+        }
+      });
+      
     } catch (error) {
       console.error('Error requesting notification permission:', error);
     }
@@ -63,7 +88,7 @@ export default function Home() {
   const messaging = getMessaging(app);
 
   if (messaging) {
-    requestPermission().then(() => get(messaging));
+    // requestPermission().then(() => get(messaging));
   }
 
   const unsubscribe = onMessage(messaging, (payload) => {
@@ -84,6 +109,9 @@ export default function Home() {
   return (
     <div  >
       <Taskbar />
+      <button id="my-button" onClick={requestPermissionAndFetchToken}>
+            Enable Notifications
+          </button>
       
      
      
