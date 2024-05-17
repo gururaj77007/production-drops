@@ -33,6 +33,7 @@ export default function Home() {
       const permission = await Notification.requestPermission();
       if (permission === 'granted') {
         console.log('Notification permission granted.');
+        alert('Notification permission granted.')
         const messaging = getMessaging(app);
         const currentToken = await getToken(messaging, {
           vapidKey: 'BK_nYkNSOhLl-l0rWQ4KuaXzUKZxnTm9fy4EylOa8tAAoTXhK-MHxggTdl6e8Ew5s1RvTfRFFMDnooNO9D20txs',
@@ -42,12 +43,15 @@ export default function Home() {
          // setToken(currentToken);
         } else {
           console.log('No registration token available. Request permission to generate one.');
+          
         }
       } else {
         console.log('Unable to get permission to notify.');
+        alert('Unable to get permission to notify.')
       }
     } catch (error) {
       console.error('Error requesting notification permission:', error);
+      alert("ERROR")
     }
   };
 
